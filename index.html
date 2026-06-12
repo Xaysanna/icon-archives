@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Icon✦ — Drop 001</title>
+<meta name="description" content="Icon. 100 pièces. La date est verrouillée. Sois prévenu avant tout le monde.">
+<meta property="og:title" content="Icon✦ — Drop 001">
+<meta property="og:description" content="100 pièces. Jamais réédité. La date est verrouillée — entre dans l'archive.">
+<meta property="og:image" content="assets/logo-icon.png">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="assets/logo-icon.png">
+<link rel="preload" as="image" href="assets/logo-icon.png">
+<link rel="preload" as="image" href="assets/hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Mrs+Saint+Delafield&family=Mr+Dafoe&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --noir:#050607;
+  --noir-2:#0A0D12;
+  --blanc:#EDE8DF;
+  --or:#C19A6B;
+  --or-2:#E8C99B;
+  --gris:#8A8C90;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:var(--noir);color:var(--blanc);font-family:'Inter',sans-serif;overflow-x:hidden}
+::selection{background:var(--or);color:var(--noir)}
+.script{font-family:'Mrs Saint Delafield',cursive;font-weight:400}
+
+/* ---------- grain ---------- */
+.grain{position:fixed;inset:-50%;width:200%;height:200%;pointer-events:none;z-index:9000;opacity:.07;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  animation:grain 8s steps(10) infinite}
+@keyframes grain{
+  0%,100%{transform:translate(0,0)}10%{transform:translate(-5%,-10%)}20%{transform:translate(-15%,5%)}
+  30%{transform:translate(7%,-25%)}40%{transform:translate(-5%,25%)}50%{transform:translate(-15%,10%)}
+  60%{transform:translate(15%,0)}70%{transform:translate(0,15%)}80%{transform:translate(3%,35%)}90%{transform:translate(-10%,10%)}}
+
+/* ---------- étoile 4 branches (logo) ---------- */
+.star4{fill:var(--or)}
+.star-spin{animation:starPulse 3.5s var(--ease) infinite}
+@keyframes starPulse{0%,100%{transform:scale(1);filter:drop-shadow(0 0 6px rgba(193,154,107,.35))}50%{transform:scale(1.18);filter:drop-shadow(0 0 18px rgba(193,154,107,.75))}}
+
+/* ---------- vrai logo (PNG fond noir → blend screen) ---------- */
+.logo-img{mix-blend-mode:screen;display:block;filter:brightness(1.02) contrast(1.9) saturate(.85)}
+.star-img{mix-blend-mode:screen;display:inline-block;filter:contrast(1.6)}
+
+/* ---------- signature Icon (écriture qui se signe) ---------- */
+.sig-wrap{position:relative;display:inline-block}
+.sig{font-family:'Mr Dafoe',cursive;color:var(--blanc);line-height:1;letter-spacing:.01em;font-style:italic}
+.sig .underline{position:absolute;left:8%;bottom:.06em;width:96%;height:2px;background:linear-gradient(90deg,transparent,var(--blanc) 12%,var(--blanc) 88%,transparent);transform:rotate(-7deg);transform-origin:left}
+.sig-star{position:absolute;right:-.32em;top:.08em;width:.18em;height:.18em}
+
+/* signature animée = masque qui se révèle de gauche à droite */
+.sign-anim{clip-path:inset(0 100% 0 0);animation:signIt 1.7s var(--ease) forwards}
+@keyframes signIt{to{clip-path:inset(0 0 0 0)}}
+
+/* ---------- barre de progression scroll ---------- */
+#sprog{position:fixed;top:0;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--or),var(--or-2));z-index:2000;box-shadow:0 0 12px rgba(193,154,107,.5)}
+
+/* ---------- toggle son ---------- */
+#sndBtn{position:fixed;bottom:24px;left:24px;z-index:1600;background:rgba(10,13,18,.7);backdrop-filter:blur(10px);border:1px solid rgba(237,232,223,.15);color:var(--gris);font-size:9px;letter-spacing:.35em;text-transform:uppercase;padding:12px 18px;display:flex;align-items:center;gap:10px;transition:color .3s,border-color .3s}
+#sndBtn:hover{color:var(--or);border-color:rgba(193,154,107,.4)}
+#sndBtn .eq{display:flex;gap:2px;align-items:flex-end;height:10px}
+#sndBtn .eq i{width:2px;background:currentColor;height:3px}
+#sndBtn.on .eq i{animation:eq .9s ease-in-out infinite}
+#sndBtn.on .eq i:nth-child(2){animation-delay:.2s}
+#sndBtn.on .eq i:nth-child(3){animation-delay:.4s}
+@keyframes eq{0%,100%{height:3px}50%{height:10px}}
+
+/* ---------- horloge paris ---------- */
+.clock{font-variant-numeric:tabular-nums}
+
+/* ---------- slot verrouillé : refus ---------- */
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+.slot.deny{animation:shake .45s var(--ease)}
+.slot .deny-msg{position:absolute;bottom:14px;left:50%;transform:translateX(-50%) translateY(8px);font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--or);opacity:0;transition:all .4s var(--ease);white-space:nowrap}
+.slot.deny .deny-msg{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ---------- gate light leak ---------- */
+#gate .leak{position:absolute;top:0;bottom:0;left:50%;width:2px;transform:translateX(-50%);background:linear-gradient(180deg,transparent,rgba(232,201,155,.9),transparent);opacity:0;filter:blur(1px);transition:opacity .4s;z-index:1}
+#gate.open .leak{opacity:1;animation:leakOut 1.4s var(--ease) forwards}
+@keyframes leakOut{0%{width:2px;opacity:1}60%{width:42vw;opacity:.25}100%{width:100vw;opacity:0}}
+
+/* ---------- curseur étoile ---------- */
+body{cursor:none}
+a,button,input{cursor:none}
+.cursor-dot{position:fixed;top:0;left:0;width:6px;height:6px;background:var(--blanc);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s,height .25s,background .25s}
+.cursor-star{position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);width:26px;height:26px;opacity:.85;transition:transform .18s var(--ease)}
+.cursor-star svg{width:100%;height:100%}
+body.hovering .cursor-dot{width:0;height:0}
+body.hovering .cursor-star{transform:translate(-50%,-50%) scale(1.7) rotate(90deg)}
+@media(pointer:coarse){body,a,button,input{cursor:auto}.cursor-dot,.cursor-star{display:none}}
+
+/* ---------- porte de l'archive (gate) ---------- */
+#gate{position:fixed;inset:0;z-index:9500;display:flex;align-items:center;justify-content:center;visibility:visible}
+#gate .panel{position:absolute;top:0;bottom:0;width:50.5%;background:#030405;transition:transform 1.6s var(--ease)}
+#gate .panel.l{left:0}
+#gate .panel.r{right:0}
+#gate.open .panel.l{transform:translateX(-101%)}
+#gate.open .panel.r{transform:translateX(101%)}
+#gate.gone{visibility:hidden}
+#gate .inner{position:relative;z-index:2;text-align:center;transition:opacity .5s}
+#gate.open .inner{opacity:0;pointer-events:none}
+#gate .inner .glogo{width:clamp(240px,36vw,460px);mix-blend-mode:screen;filter:brightness(1.02) contrast(1.9);display:block;margin:0 auto}
+#gate .enter-btn{margin-top:7vh;display:inline-flex;align-items:center;gap:16px;background:none;border:1px solid rgba(237,232,223,.35);color:var(--blanc);font-family:'Archivo',sans-serif;font-weight:700;font-size:12px;letter-spacing:.5em;text-transform:uppercase;padding:22px 44px;position:relative;overflow:hidden;transition:color .45s var(--ease),border-color .45s,letter-spacing .6s}
+#gate .enter-btn::before{content:"";position:absolute;inset:0;background:var(--or);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease);z-index:-1}
+#gate .enter-btn:hover{color:var(--noir);border-color:var(--or);letter-spacing:.62em}
+#gate .enter-btn:hover::before{transform:scaleX(1)}
+#gate .gnote{margin-top:26px;font-size:9px;letter-spacing:.45em;text-transform:uppercase;color:#3a3d42}
+@media(max-width:860px){
+  #gate .inner{padding:0 6vw;max-width:100vw}
+  #gate .inner .glogo{width:min(78vw,320px)}
+  #gate .enter-btn{letter-spacing:.28em;padding:18px 26px;font-size:11px;white-space:nowrap}
+  #gate .enter-btn:hover{letter-spacing:.32em}
+  #gate .gnote{letter-spacing:.3em}
+}
+/* mobile : hero allégé + centrage */
+@media(max-width:860px){
+  .count-note{display:none}
+  .scroll-cue{display:none}
+  .hero{padding-left:5vw;padding-right:5vw}
+  .hero-content{width:100%;align-items:center}
+  .hero .sig-wrap{display:block;width:100%;text-align:center}
+  .hero .sig-inner img{width:min(72vw,300px);margin:0 auto;display:block;transform:none!important}
+  .hero .tag{margin-top:3vh;font-size:10px;letter-spacing:.3em;text-align:center}
+  .count{margin-top:4vh;gap:10px;justify-content:center;width:100%}
+  .count .cell{min-width:0;flex:0 1 auto}
+  .count .num{font-size:clamp(30px,9vw,40px)}
+  .count .lbl{font-size:7px;letter-spacing:.25em}
+  .count .sep{font-size:clamp(24px,7vw,34px)}
+  .count-wrap{width:100%}
+  .count-locked{font-size:7.5px;padding:10px 12px;letter-spacing:.25em;width:max-content;max-width:86vw;white-space:normal;text-align:center;line-height:1.8}
+  .hero-cta{margin-top:4vh}
+  .btn{padding:16px 22px;letter-spacing:.28em;font-size:11px}
+  footer .reveal img{width:min(70vw,300px)!important;margin:0 auto}
+  .manifesto{padding:16vh 6vw}
+  .indice .term{font-size:11px;padding:20px 18px}
+  nav{padding:20px 5vw}
+}
+
+/* ---------- salle des archives (slots verrouillés) ---------- */
+.vault{padding:16vh 4vw 18vh;max-width:1500px;margin:0 auto}
+.vault .head{text-align:center;margin-bottom:9vh}
+.vault .head .small{font-size:11px;letter-spacing:.45em;text-transform:uppercase;color:var(--or);display:block;margin-bottom:3vh}
+.vault .head h4{font-family:'Archivo',sans-serif;font-weight:800;font-stretch:118%;text-transform:uppercase;font-size:clamp(30px,5vw,72px);line-height:1}
+.vault .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.slot{position:relative;aspect-ratio:3/4.4;background:var(--noir-2);border:1px solid rgba(237,232,223,.07);overflow:hidden;display:flex;align-items:center;justify-content:center;transition:border-color .5s}
+.slot .sn{position:absolute;top:14px;left:14px;font-family:'Archivo',sans-serif;font-weight:800;font-size:10px;letter-spacing:.3em;color:var(--gris)}
+.slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.slot.open-slot{border-color:rgba(193,154,107,.5)}
+.slot.open-slot:hover img{transform:scale(1.06)}
+.slot.open-slot img{transition:transform 1.2s var(--ease)}
+.slot.open-slot .sn{color:var(--or);z-index:2}
+.slot.locked .lock-ico{width:20px;height:26px;border:1.5px solid #3a3d42;border-radius:2px;position:relative;margin-bottom:14px}
+.slot.locked .lock-ico::before{content:"";position:absolute;top:-12px;left:50%;transform:translateX(-50%);width:12px;height:14px;border:1.5px solid #3a3d42;border-bottom:none;border-radius:7px 7px 0 0}
+.slot.locked .inner-lk{display:flex;flex-direction:column;align-items:center;color:#3a3d42;font-size:9px;letter-spacing:.35em;text-transform:uppercase;text-align:center;padding:0 10px}
+.slot.locked::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 8px,rgba(237,232,223,.012) 8px,rgba(237,232,223,.012) 9px)}
+.slot.locked:hover{border-color:rgba(237,232,223,.18)}
+.vault .vnote{margin-top:6vh;text-align:center;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gris)}
+.vault .vnote b{color:var(--or);font-weight:500}
+
+/* ---------- indice quotidien ---------- */
+.indice{max-width:680px;margin:0 auto;padding:0 4vw 16vh;text-align:center}
+.indice .term{border:1px solid rgba(237,232,223,.12);background:rgba(10,13,18,.6);padding:26px 30px;font-family:'Consolas','Courier New',monospace;font-size:13px;color:var(--gris);text-align:left}
+.indice .term .ln{color:var(--or)}
+.indice .term .cur{display:inline-block;width:8px;height:15px;background:var(--or);vertical-align:-2px;animation:blink 1.1s steps(1) infinite;margin-left:2px}
+.indice .tnote{margin-top:18px;font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:#3a3d42}
+
+@media(max-width:860px){.vault .grid{grid-template-columns:repeat(2,1fr)}.slot:nth-child(5){display:none}}
+
+/* ---------- preloader ---------- */
+#loader{position:fixed;inset:0;background:var(--noir);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .9s var(--ease),visibility .9s}
+#loader.done{opacity:0;visibility:hidden}
+#loader .sig{font-size:clamp(90px,17vw,210px)}
+#loader .sig-wrap{opacity:0;animation:fadeUp .01s .15s forwards}
+@keyframes fadeUp{to{opacity:1}}
+#loader .flash{position:absolute;inset:0;background:radial-gradient(circle at 62% 42%,rgba(232,201,155,.22),transparent 35%);opacity:0;animation:flash .9s var(--ease) 1.75s}
+@keyframes flash{0%{opacity:0}30%{opacity:1}100%{opacity:0}}
+#loader .pct{position:absolute;bottom:8vh;left:50%;transform:translateX(-50%);font-family:'Archivo',sans-serif;font-weight:800;font-size:12px;letter-spacing:.5em;color:var(--gris)}
+#loader .bar{position:absolute;bottom:6.2vh;left:50%;transform:translateX(-50%);width:180px;height:1px;background:rgba(237,232,223,.12)}
+#loader .bar i{display:block;height:100%;width:0;background:var(--or);transition:width .2s linear}
+
+/* ---------- particules dorées (canvas) ---------- */
+#dust{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.8}
+
+/* ---------- flicker lampadaire ---------- */
+.hero-img.show img{animation:lampFlicker 9s steps(1) infinite}
+@keyframes lampFlicker{0%,91%,93.5%,100%{filter:brightness(1)}91.8%{filter:brightness(.82)}92.6%{filter:brightness(1.06)}93%{filter:brightness(.9)}}
+
+/* ---------- burst étoiles (waitlist success) ---------- */
+.burst-star{position:fixed;width:14px;height:14px;pointer-events:none;z-index:9999}
+.burst-star svg{width:100%;height:100%}
+
+/* ---------- easter egg pièce 000 ---------- */
+#egg{position:fixed;inset:0;z-index:9700;background:rgba(3,4,5,.92);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .6s var(--ease),visibility .6s}
+#egg.on{opacity:1;visibility:visible}
+#egg .box{max-width:480px;text-align:center;padding:60px 40px;border:1px solid rgba(193,154,107,.4);position:relative}
+#egg .box .e-num{font-family:'Archivo',sans-serif;font-weight:800;font-size:11px;letter-spacing:.5em;color:var(--or);text-transform:uppercase}
+#egg .box h5{font-family:'Mr Dafoe',cursive;font-size:54px;color:var(--blanc);font-weight:400;margin:24px 0}
+#egg .box p{font-size:12px;line-height:2;color:var(--gris);letter-spacing:.06em}
+#egg .box p b{color:var(--blanc);font-weight:500}
+#egg .close{position:absolute;top:14px;right:18px;background:none;border:none;color:var(--gris);font-size:20px;transition:color .3s}
+#egg .close:hover{color:var(--or)}
+
+/* ---------- nav ---------- */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;justify-content:space-between;align-items:center;padding:26px 4vw;mix-blend-mode:difference}
+nav .mark{text-decoration:none;color:var(--blanc);font-family:'Mr Dafoe',cursive;font-size:30px;font-style:italic;line-height:1}
+nav .mark .nstar{color:var(--or);font-size:.45em;vertical-align:1em;font-style:normal}
+nav .right{font-size:11px;letter-spacing:.3em;text-transform:uppercase;display:flex;gap:28px;align-items:center}
+nav .right a{color:var(--blanc);text-decoration:none;transition:opacity .3s}
+nav .right a:hover{opacity:.5}
+nav .cta-mini{border:1px solid rgba(237,232,223,.4);padding:10px 18px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;text-align:center;padding:0 4vw}
+.hero-img{position:absolute;inset:0;z-index:0;will-change:transform}
+.hero-img img{width:100%;height:115%;object-fit:cover;object-position:center 18%;opacity:0;transform:scale(1.14);transition:opacity 2.2s var(--ease),transform 4s var(--ease)}
+.hero-img.show img{opacity:.5;transform:scale(1.02)}
+.hero-img::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(5,6,7,.25) 0%,rgba(5,6,7,.88) 78%),linear-gradient(180deg,rgba(5,6,7,.5),transparent 30%,transparent 60%,rgba(5,6,7,.95))}
+.hero-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center}
+.hero .sig{font-size:clamp(120px,26vw,380px)}
+.hero .sig-wrap{opacity:0}
+.hero.in .sig-wrap{opacity:1}
+.hero.in .sig-inner img{clip-path:inset(0 100% 0 0);animation:signIt 1.6s var(--ease) .25s forwards}
+.hero .tag{margin-top:4vh;font-size:11px;letter-spacing:.55em;text-transform:uppercase;color:var(--gris);opacity:0;transform:translateY(18px);transition:all 1.2s var(--ease) 1.5s}
+.hero.in .tag{opacity:1;transform:none}
+.hero .tag b{color:var(--or);font-weight:500}
+
+/* countdown */
+.count{display:flex;gap:clamp(18px,5vw,54px);margin-top:6vh;opacity:0;transform:translateY(24px);transition:all 1.3s var(--ease) 1.9s}
+.hero.in .count{opacity:1;transform:none}
+.count .cell{text-align:center;min-width:64px}
+.count .num{font-family:'Archivo',sans-serif;font-weight:800;font-stretch:120%;font-size:clamp(40px,7vw,86px);line-height:1;color:var(--blanc);font-variant-numeric:tabular-nums;filter:blur(16px);user-select:none;transition:filter .6s var(--ease)}
+.count .cell:hover .num{filter:blur(22px)}
+.count-locked{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;font-size:10px;letter-spacing:.5em;text-transform:uppercase;color:var(--blanc);background:rgba(5,6,7,.55);backdrop-filter:blur(2px);border:1px solid rgba(193,154,107,.45);padding:14px 26px;white-space:nowrap;pointer-events:none}
+.count-locked b{color:var(--or);font-weight:600}
+.count-wrap{position:relative}
+.count .lbl{margin-top:10px;font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:var(--gris)}
+.count .sep{font-family:'Archivo',sans-serif;font-weight:200;font-size:clamp(34px,6vw,72px);color:var(--or);line-height:1.15;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:.9}50%{opacity:.25}}
+.count-note{margin-top:3.5vh;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--or);opacity:0;transition:opacity 1.2s var(--ease) 2.3s}
+.hero.in .count-note{opacity:1}
+
+.hero-cta{margin-top:5vh;opacity:0;transform:translateY(20px);transition:all 1.2s var(--ease) 2.5s}
+.hero.in .hero-cta{opacity:1;transform:none}
+.btn{display:inline-flex;align-items:center;gap:14px;border:1px solid rgba(237,232,223,.35);color:var(--blanc);background:rgba(5,6,7,.35);backdrop-filter:blur(6px);text-decoration:none;font-family:'Archivo',sans-serif;font-weight:700;font-size:12px;letter-spacing:.4em;text-transform:uppercase;padding:20px 38px;position:relative;overflow:hidden;transition:color .45s var(--ease),border-color .45s}
+.btn::before{content:"";position:absolute;inset:0;background:var(--blanc);transform:translateY(101%);transition:transform .5s var(--ease);z-index:-1}
+.btn:hover{color:var(--noir);border-color:var(--blanc)}
+.btn:hover::before{transform:translateY(0)}
+.btn .st{color:var(--or);transition:color .45s}
+.btn:hover .st{color:var(--noir)}
+
+.scroll-cue{position:absolute;bottom:4.5vh;left:50%;transform:translateX(-50%);width:1px;height:52px;overflow:hidden;z-index:2}
+.scroll-cue::after{content:"";position:absolute;left:0;top:-100%;width:1px;height:100%;background:var(--blanc);animation:cue 2.2s var(--ease) infinite}
+@keyframes cue{0%{top:-100%}50%{top:0}100%{top:100%}}
+
+/* ---------- marquee ---------- */
+.marquee{border-top:1px solid rgba(237,232,223,.08);border-bottom:1px solid rgba(237,232,223,.08);padding:20px 0;overflow:hidden;white-space:nowrap;background:var(--noir)}
+.marquee .track{display:inline-block;animation:scroll 26s linear infinite}
+.marquee span{font-family:'Archivo',sans-serif;font-weight:700;font-stretch:115%;font-size:12px;letter-spacing:.45em;text-transform:uppercase;color:var(--gris);margin:0 28px}
+.marquee .gold{color:var(--or)}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ---------- manifesto ---------- */
+.manifesto{padding:24vh 4vw;max-width:1100px;margin:0 auto;text-align:center}
+.manifesto .small{font-size:11px;letter-spacing:.45em;text-transform:uppercase;color:var(--or);margin-bottom:6vh;display:block}
+.manifesto p{font-family:'Archivo',sans-serif;font-weight:500;font-stretch:105%;font-size:clamp(26px,4vw,52px);line-height:1.3;text-transform:uppercase}
+.manifesto p .dim{color:#2e3136;transition:color .5s var(--ease)}
+.manifesto p .dim.lit{color:var(--blanc)}
+.manifesto p .script{text-transform:none;color:var(--or);font-size:1.6em}
+
+/* ---------- bande éditoriale ---------- */
+.editorial{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0 4vw 14vh;max-width:1500px;margin:0 auto}
+.editorial .cell{position:relative;overflow:hidden;background:var(--noir-2)}
+.editorial .cell.tall{aspect-ratio:3/4}
+.editorial .cell img{width:100%;height:100%;object-fit:cover;transform:scale(1.12);transition:transform 2.4s var(--ease);display:block}
+.editorial .cell.in img{transform:scale(1)}
+.editorial .cell .cap{position:absolute;bottom:18px;left:18px;font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--blanc);background:rgba(5,6,7,.55);backdrop-filter:blur(8px);padding:9px 14px;border:1px solid rgba(237,232,223,.12)}
+.editorial .cell.txt{display:flex;flex-direction:column;justify-content:flex-end;gap:14px;background:none;border:1px solid rgba(237,232,223,.07);padding:30px}
+.editorial .cell.txt .q{font-family:'Archivo',sans-serif;font-weight:700;font-stretch:112%;text-transform:uppercase;font-size:clamp(18px,2vw,28px);line-height:1.3;color:var(--blanc)}
+.editorial .cell.txt .q em{font-style:normal;color:var(--or)}
+.editorial .cell.txt .sub-q{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--gris)}
+.editorial .wide{grid-column:1/-1;aspect-ratio:21/8}
+@media(max-width:860px){.editorial{grid-template-columns:1fr}.editorial .wide{aspect-ratio:16/9}}
+
+/* ---------- product tease ---------- */
+.product{display:grid;grid-template-columns:1.05fr 1fr;gap:6vw;padding:8vh 4vw 18vh;max-width:1500px;margin:0 auto;align-items:center}
+.product .visual{position:relative;overflow:hidden;background:var(--noir-2);aspect-ratio:3/4}
+.product .visual img{width:100%;height:100%;object-fit:cover;transform:scale(1.18);filter:brightness(.92);transition:transform 2.8s var(--ease)}
+.product .visual.in img{transform:scale(1)}
+.product .visual .veil{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(5,6,7,.25);backdrop-filter:blur(2px);opacity:1;transition:opacity 1s var(--ease),backdrop-filter 1s}
+.product .visual:hover .veil{opacity:0}
+.product .visual .veil .script{font-size:clamp(48px,6vw,84px);color:var(--blanc);text-shadow:0 4px 30px rgba(0,0,0,.6)}
+.product .visual .tag{position:absolute;top:20px;left:20px;font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:var(--blanc);background:rgba(5,6,7,.6);backdrop-filter:blur(8px);padding:10px 16px;border:1px solid rgba(237,232,223,.12)}
+.product .info .num{font-family:'Archivo',sans-serif;font-weight:800;font-size:11px;letter-spacing:.4em;color:var(--or);text-transform:uppercase}
+.product .info h2{font-family:'Archivo',sans-serif;font-weight:800;font-stretch:115%;text-transform:uppercase;font-size:clamp(34px,4.5vw,62px);line-height:1;margin:24px 0 6vh}
+.product .specs{border-top:1px solid rgba(237,232,223,.1)}
+.product .specs .row{display:flex;justify-content:space-between;padding:17px 0;border-bottom:1px solid rgba(237,232,223,.1);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+.product .specs .row .k{color:var(--gris)}
+.product .specs .row .v{color:var(--blanc);text-align:right}
+.product .note{margin-top:4vh;font-size:12px;font-weight:300;line-height:1.8;color:var(--gris);max-width:420px}
+.product .note b{color:var(--or);font-weight:500}
+
+/* ---------- compteur 100 pièces ---------- */
+.hundred{padding:14vh 4vw 18vh;text-align:center;position:relative;overflow:hidden}
+.hundred .giant{font-family:'Archivo',sans-serif;font-weight:800;font-stretch:125%;font-size:clamp(120px,28vw,420px);line-height:.85;color:transparent;-webkit-text-stroke:1px rgba(237,232,223,.22);position:relative;font-variant-numeric:tabular-nums}
+.hundred .giant .fill{position:absolute;inset:0;color:var(--blanc);-webkit-text-stroke:0;clip-path:inset(100% 0 0 0);transition:clip-path 2.2s var(--ease)}
+.hundred.in .giant .fill{clip-path:inset(0 0 0 0)}
+.hundred .cap{margin-top:4vh;font-size:12px;letter-spacing:.5em;text-transform:uppercase;color:var(--gris)}
+.hundred .cap b{color:var(--or);font-weight:500}
+
+/* ---------- waitlist ---------- */
+.waitlist{position:relative;padding:18vh 4vw 20vh;text-align:center;overflow:hidden}
+.waitlist::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:150vw;height:150vw;background:radial-gradient(circle,rgba(193,154,107,.08) 0%,transparent 52%);pointer-events:none}
+.waitlist .star-top{width:34px;height:34px;margin-bottom:5vh}
+.waitlist h3{font-family:'Archivo',sans-serif;font-weight:800;font-stretch:118%;text-transform:uppercase;font-size:clamp(38px,7vw,110px);line-height:.97}
+.waitlist h3 .script{text-transform:none;color:var(--or);font-size:1.25em;display:block;margin-top:.1em}
+.waitlist .sub{margin:4.5vh auto 6.5vh;font-size:13px;font-weight:300;letter-spacing:.06em;line-height:1.9;color:var(--gris);max-width:480px}
+.waitlist .sub b{color:var(--blanc);font-weight:500}
+.form-wrap{max-width:580px;margin:0 auto;position:relative}
+.form{display:flex;border:1px solid rgba(237,232,223,.25);background:rgba(10,13,18,.55);backdrop-filter:blur(10px);padding:6px 6px 6px 26px;transition:border-color .4s,box-shadow .4s}
+.form:focus-within{border-color:var(--or);box-shadow:0 0 50px rgba(193,154,107,.12)}
+.form input{flex:1;background:none;border:none;outline:none;color:var(--blanc);font-family:'Inter',sans-serif;font-size:15px;letter-spacing:.05em;padding:18px 0;font-weight:300;min-width:0}
+.form input::placeholder{color:#4a4d52;text-transform:uppercase;font-size:11px;letter-spacing:.3em}
+.form button{background:var(--blanc);border:none;cursor:pointer;color:var(--noir);font-family:'Archivo',sans-serif;font-weight:800;font-size:11px;letter-spacing:.32em;text-transform:uppercase;padding:0 30px;display:flex;align-items:center;gap:10px;transition:background .35s,color .35s}
+.form button:hover{background:var(--or);color:var(--noir)}
+.form-success{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:16px;background:var(--noir);border:1px solid rgba(193,154,107,.5);opacity:0;pointer-events:none;transition:opacity .6s var(--ease)}
+.form-wrap.ok .form-success{opacity:1;pointer-events:auto}
+.form-success .txt{font-family:'Mrs Saint Delafield',cursive;font-size:36px;color:var(--or)}
+.waitlist .privacy{margin-top:30px;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#3a3d42}
+.waitlist .counter-live{margin-top:5vh;font-size:11px;letter-spacing:.35em;text-transform:uppercase;color:var(--gris)}
+.waitlist .counter-live b{color:var(--blanc);font-weight:500}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid rgba(237,232,223,.08);padding:9vh 4vw 5vh;text-align:center}
+footer .sig{font-size:clamp(90px,18vw,260px);opacity:.95}
+footer .row{display:flex;justify-content:space-between;align-items:center;margin-top:7vh;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gris);flex-wrap:wrap;gap:16px}
+footer .row a{color:var(--gris);text-decoration:none;transition:color .3s}
+footer .row a:hover{color:var(--or)}
+
+/* ---------- sticky bottom bar ---------- */
+.sticky-bar{position:fixed;left:50%;bottom:22px;transform:translate(-50%,150%);z-index:1500;display:flex;align-items:center;gap:20px;background:rgba(10,13,18,.78);backdrop-filter:blur(16px);border:1px solid rgba(237,232,223,.14);padding:14px 14px 14px 26px;transition:transform .8s var(--ease);max-width:92vw}
+.sticky-bar.show{transform:translate(-50%,0)}
+.sticky-bar .t{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--blanc);white-space:nowrap}
+.sticky-bar .t b{color:var(--or);font-weight:500;font-variant-numeric:tabular-nums}
+.sticky-bar a{background:var(--blanc);color:var(--noir);text-decoration:none;font-family:'Archivo',sans-serif;font-weight:800;font-size:10px;letter-spacing:.28em;text-transform:uppercase;padding:13px 22px;white-space:nowrap;transition:background .3s}
+.sticky-bar a:hover{background:var(--or)}
+
+/* ---------- reveal ---------- */
+.reveal{opacity:0;transform:translateY(50px);transition:opacity 1.2s var(--ease),transform 1.2s var(--ease)}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+@media(max-width:860px){
+  .product{grid-template-columns:1fr;gap:7vh}
+  nav .right .hide-m{display:none}
+  .sticky-bar .t{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<!-- PRELOADER : la signature se signe -->
+<div id="loader">
+  <div class="flash"></div>
+  <div class="sign-anim">
+    <img class="logo-img" src="assets/logo-icon.png" alt="Icon" style="width:clamp(280px,42vw,560px)">
+  </div>
+  <div class="pct" id="loadPct">0%</div>
+  <div class="bar"><i id="loadBar"></i></div>
+</div>
+
+<!-- POUSSIÈRE DORÉE -->
+<canvas id="dust"></canvas>
+
+<!-- EASTER EGG : PIÈCE 000 -->
+<div id="egg">
+  <div class="box">
+    <button class="close" id="eggClose">✕</button>
+    <div class="e-num">✦ Archive secrète débloquée</div>
+    <h5>Pièce 000</h5>
+    <p>Le tout premier prototype. Cousu une seule fois, jamais produit, jamais montré. Il dort dans l'archive.<br><br><b>Tu fais partie des rares à savoir qu'il existe.</b><br>Garde ça pour toi — ou pas.</p>
+  </div>
+</div>
+
+<!-- PROGRESSION SCROLL -->
+<div id="sprog"></div>
+
+<!-- TOGGLE SON -->
+<button id="sndBtn"><span class="eq"><i></i><i></i><i></i></span> Son</button>
+
+<!-- CURSEUR -->
+<div class="cursor-dot" id="cDot"></div>
+<div class="cursor-star" id="cStar"><svg viewBox="0 0 24 24"><path fill="#C19A6B" d="M12 0 L14.2 9.8 L24 12 L14.2 14.2 L12 24 L9.8 14.2 L0 12 L9.8 9.8 Z"/></svg></div>
+
+<!-- PORTE DE L'ARCHIVE -->
+<div id="gate">
+  <div class="panel l"></div>
+  <div class="panel r"></div>
+  <div class="leak"></div>
+  <div class="inner">
+    <img class="glogo" src="assets/logo-icon.png" alt="Icon">
+    <div><button class="enter-btn" id="enterBtn">Entrer dans l'archive</button></div>
+    <div class="gnote">✦ 100 pièces. Une porte. ✦</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a class="mark" href="#"><img class="logo-img" src="assets/logo-icon.png" alt="Icon" style="height:42px;width:auto"></a>
+  <div class="right">
+    <a class="hide-m" href="https://instagram.com/icon.archives" target="_blank" rel="noopener">Instagram</a>
+    <a class="cta-mini" href="#waitlist">Être prévenu</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="hero">
+  <div class="hero-img" id="heroImg">
+    <img src="assets/hero.jpg" alt="" onerror="this.parentElement.style.display='none'">
+  </div>
+  <div class="hero-content">
+    <div class="sig-wrap">
+      <div class="sig-inner">
+        <img class="logo-img" src="assets/logo-icon.png" alt="Icon" style="width:clamp(320px,52vw,860px)">
+      </div>
+    </div>
+    <div class="tag">Drop 001 — <b>100 pièces. C'est tout.</b></div>
+
+    <!-- COUNTDOWN (flouté — la date est verrouillée) -->
+    <div class="count-wrap">
+      <div class="count" id="count">
+        <div class="cell"><div class="num" id="cd-d">--</div><div class="lbl">Jours</div></div>
+        <div class="sep">:</div>
+        <div class="cell"><div class="num" id="cd-h">--</div><div class="lbl">Heures</div></div>
+        <div class="sep">:</div>
+        <div class="cell"><div class="num" id="cd-m">--</div><div class="lbl">Minutes</div></div>
+        <div class="sep">:</div>
+        <div class="cell"><div class="num" id="cd-s">--</div><div class="lbl">Secondes</div></div>
+      </div>
+      <div class="count-locked">✦ Date <b>verrouillée</b> — réservée aux inscrits</div>
+    </div>
+    <div class="count-note">✦ Le compte à rebours tourne. Seuls les inscrits voient la date.</div>
+
+    <div class="hero-cta">
+      <a class="btn" href="#waitlist"><span class="st">✦</span> Sois prévenu 24h avant <span class="st">✦</span></a>
+    </div>
+  </div>
+  <div class="scroll-cue"></div>
+</header>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="track">
+    <span>Presence over noise</span><span class="gold">✦</span>
+    <span>100 pièces — jamais réédité</span><span class="gold">✦</span>
+    <span>Drop 001</span><span class="gold">✦</span>
+    <span>Heavyweight 280 GSM</span><span class="gold">✦</span>
+    <span>Presence over noise</span><span class="gold">✦</span>
+    <span>100 pièces — jamais réédité</span><span class="gold">✦</span>
+    <span>Drop 001</span><span class="gold">✦</span>
+    <span>Heavyweight 280 GSM</span><span class="gold">✦</span>
+  </div>
+</div>
+
+<!-- MANIFESTO -->
+<section class="manifesto">
+  <span class="small reveal">Le manifeste</span>
+  <p id="manifesto"></p>
+</section>
+
+<!-- BANDE ÉDITORIALE -->
+<section class="editorial">
+  <div class="cell tall reveal"><img src="assets/lifestyle.jpg" alt="" loading="lazy"><span class="cap">Une autre catégorie</span></div>
+  <div class="cell txt reveal">
+    <div class="q">Une présence qui attire. Un style maîtrisé. Une allure qui se remarque <em>sans effort</em>.</div>
+    <div class="sub-q">— Le fondateur</div>
+  </div>
+  <div class="cell wide reveal"><img src="assets/texture.jpg" alt="" loading="lazy"><span class="cap">280 GSM — Broderie ton sur ton</span></div>
+</section>
+
+<!-- PRODUCT -->
+<section class="product">
+  <div class="visual reveal" id="productVisual">
+    <img src="assets/product.jpg" alt="Icon — Pièce 001" onerror="this.style.display='none'">
+    <div class="veil"><span class="script">Pièce 001</span></div>
+    <span class="tag">Aperçu — Prototype 1</span>
+  </div>
+  <div class="info reveal">
+    <span class="num">— Pièce N°001 / Édition de 100, numérotée</span>
+    <h2>Longsleeve<br>Heavyweight</h2>
+    <div class="specs">
+      <div class="row"><span class="k">Matière</span><span class="v">100% coton — Heavyweight jersey</span></div>
+      <div class="row"><span class="k">Grammage</span><span class="v">280 GSM — Dry touch / mat</span></div>
+      <div class="row"><span class="k">Coupe</span><span class="v">Oversized — Épaules tombantes</span></div>
+      <div class="row"><span class="k">Col</span><span class="v">Broderie ton sur ton</span></div>
+      <div class="row"><span class="k">Dos</span><span class="v">Signature Icon — imprimée</span></div>
+      <div class="row"><span class="k">Réédition</span><span class="v">Jamais</span></div>
+    </div>
+    <p class="note">Coutures renforcées, double surpiqûre, finition premium. Chaque pièce est signée et numérotée — <b>quand les 100 sont parties, elles ne reviennent pas.</b></p>
+  </div>
+</section>
+
+<!-- 100 -->
+<section class="hundred" id="hundred">
+  <div class="giant">100<span class="fill" aria-hidden="true">100</span></div>
+  <div class="cap">Pièces. <b>Pas une de plus, jamais.</b></div>
+</section>
+
+<!-- SALLE DES ARCHIVES -->
+<section class="vault">
+  <div class="head reveal">
+    <span class="small">La salle des archives</span>
+    <h4>Cinq emplacements.<br>Un seul est ouvert.</h4>
+  </div>
+  <div class="grid reveal">
+    <div class="slot open-slot"><img src="assets/product.jpg" alt="Pièce 001"><span class="sn">001 ✦ OUVERT</span></div>
+    <div class="slot locked"><span class="sn">002</span><div class="inner-lk"><div class="lock-ico"></div>Verrouillé<br>Drop 002</div><span class="deny-msg">✦ pas encore</span></div>
+    <div class="slot locked"><span class="sn">003</span><div class="inner-lk"><div class="lock-ico"></div>Verrouillé<br>Drop 003</div><span class="deny-msg">✦ patience</span></div>
+    <div class="slot locked"><span class="sn">004</span><div class="inner-lk"><div class="lock-ico"></div>Verrouillé<br>Drop 004</div><span class="deny-msg">✦ un jour</span></div>
+    <div class="slot locked"><span class="sn">005</span><div class="inner-lk"><div class="lock-ico"></div>Verrouillé<br>—</div><span class="deny-msg">✦ qui sait</span></div>
+  </div>
+  <p class="vnote reveal">Chaque drop ouvre un emplacement. <b>Aucun ne rouvre jamais.</b></p>
+</section>
+
+<!-- INDICE QUOTIDIEN -->
+<section class="indice reveal">
+  <div class="term">
+    <span class="ln">archive@icon:~$</span> <span id="indiceTxt"></span><span class="cur"></span>
+  </div>
+  <p class="tnote">Un nouvel indice chaque jour — reviens demain</p>
+</section>
+
+<!-- WAITLIST -->
+<section class="waitlist" id="waitlist">
+  <img class="star-img star-spin reveal" src="assets/star.png" alt="" style="width:84px;height:auto;margin-bottom:5vh">
+  <h3 class="reveal">La date tombe sans prévenir.<span class="script">Toi, tu la connaîtras.</span></h3>
+  <p class="sub reveal">La date du drop ne sera <b>jamais postée publiquement</b>. Les inscrits reçoivent la date exacte et un <b>accès 24h avant tout le monde</b>. 100 pièces, des centaines sur la liste — fais le calcul.</p>
+  <div class="form-wrap reveal" id="formWrap">
+    <form class="form" id="waitlistForm">
+      <input type="email" id="emailInput" placeholder="Ton e-mail" required autocomplete="email">
+      <button type="submit">Entrer ✦</button>
+    </form>
+    <div class="form-success">
+      <svg width="24" height="24" viewBox="0 0 24 24"><path class="star4" d="M12 0 L14.2 9.8 L24 12 L14.2 14.2 L12 24 L9.8 14.2 L0 12 L9.8 9.8 Z"/></svg>
+      <span class="txt">Tu es dans l'archive</span>
+    </div>
+  </div>
+  <p class="privacy">Aucun spam. Uniquement la date. Désinscription en un clic.</p>
+  <p class="counter-live reveal">Déjà <b id="liveCount">317</b> sur la liste — pour <b>100</b> pièces</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="reveal" style="display:flex;justify-content:center">
+    <img class="logo-img" src="assets/logo-icon.png" alt="Icon" style="width:clamp(300px,45vw,640px);opacity:.95">
+  </div>
+  <div class="row">
+    <span>© 2026 ICON ARCHIVES® — PARIS <span class="clock" id="parisClock">--:--:--</span></span>
+    <a href="https://instagram.com/icon.archives" target="_blank" rel="noopener">@icon.archives</a>
+    <span>Presence over noise ✦</span>
+  </div>
+</footer>
+
+<!-- STICKY BAR -->
+<div class="sticky-bar" id="stickyBar">
+  <span class="t">Drop 001 — <b>date verrouillée ✦</b></span>
+  <a href="#waitlist">Être prévenu ✦</a>
+</div>
+
+<script>
+/* ====== CONFIG DROP ====== */
+// Date cible du drop (modifiable). Les visiteurs voient le countdown mais la "vraie" date n'est envoyée qu'aux inscrits.
+const DROP_DATE = new Date('2026-09-01T19:00:00+02:00');
+
+/* ---------- preloader → porte (avec compteur %) ---------- */
+(function(){
+  const pctEl=document.getElementById('loadPct'),barEl=document.getElementById('loadBar');
+  let p=0;
+  const iv=setInterval(()=>{
+    p=Math.min(100,p+Math.random()*14);
+    pctEl.textContent=Math.floor(p)+'%';barEl.style.width=p+'%';
+    if(p>=100){clearInterval(iv);setTimeout(()=>document.getElementById('loader').classList.add('done'),450)}
+  },150);
+})();
+document.getElementById('enterBtn').addEventListener('click',()=>{
+  SND.init();SND.on=true;sndBtn.classList.add('on');SND.gate();
+  const g=document.getElementById('gate');
+  g.classList.add('open');
+  document.getElementById('hero').classList.add('in');
+  document.getElementById('heroImg').classList.add('show');
+  setTimeout(()=>g.classList.add('gone'),1700);
+});
+
+/* ---------- moteur son (WebAudio, zéro fichier) ---------- */
+const SND={ctx:null,on:false,
+  init(){if(!this.ctx)this.ctx=new (window.AudioContext||window.webkitAudioContext)()},
+  tone(f,dur,type='sine',vol=.08,delay=0){
+    if(!this.on||!this.ctx)return;
+    const t=this.ctx.currentTime+delay,o=this.ctx.createOscillator(),g=this.ctx.createGain();
+    o.type=type;o.frequency.setValueAtTime(f,t);
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.012);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+    o.connect(g).connect(this.ctx.destination);o.start(t);o.stop(t+dur+.05);
+  },
+  hover(){this.tone(1320,.06,'sine',.025)},
+  click(){this.tone(880,.09,'triangle',.05);this.tone(1760,.05,'sine',.02,.02)},
+  gate(){this.tone(55,1.4,'sine',.16);this.tone(110,1.1,'sine',.07,.05);this.tone(220,.5,'triangle',.03,.1)},
+  deny(){this.tone(180,.13,'square',.04);this.tone(140,.16,'square',.04,.09)},
+  success(){[523,659,784,1047].forEach((f,i)=>this.tone(f,.4,'sine',.06,i*.09))}
+};
+const sndBtn=document.getElementById('sndBtn');
+sndBtn.addEventListener('click',()=>{
+  SND.init();SND.on=!SND.on;sndBtn.classList.toggle('on',SND.on);
+  if(SND.on)SND.click();
+});
+document.querySelectorAll('a,button,.open-slot').forEach(el=>{
+  el.addEventListener('mouseenter',()=>SND.hover());
+  el.addEventListener('click',()=>{if(el.id!=='sndBtn')SND.click()});
+});
+
+/* ---------- barre de progression ---------- */
+const sprog=document.getElementById('sprog');
+addEventListener('scroll',()=>{
+  const h=document.documentElement;
+  sprog.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+},{passive:true});
+
+/* ---------- horloge Paris ---------- */
+const pc=document.getElementById('parisClock');
+setInterval(()=>{pc.textContent=new Date().toLocaleTimeString('fr-FR',{timeZone:'Europe/Paris'})},1000);
+
+/* ---------- compteur 100 au scroll ---------- */
+(function(){
+  const giant=document.querySelector('.hundred .giant');
+  const fill=giant.querySelector('.fill');
+  let done=false;
+  new IntersectionObserver((es,o)=>{
+    if(!es[0].isIntersecting||done)return;done=true;o.disconnect();
+    let n=0;
+    const iv=setInterval(()=>{
+      n+=3;if(n>=100){n=100;clearInterval(iv)}
+      const s=String(n).padStart(3,'0').replace(/^0+(?=\d\d)/,'');
+      giant.childNodes[0].textContent=n===100?'100':String(n);
+      fill.textContent=n===100?'100':String(n);
+    },28);
+  },{threshold:.5}).observe(giant);
+})();
+
+/* ---------- slots verrouillés : refus ---------- */
+document.querySelectorAll('.slot.locked').forEach(sl=>{
+  sl.addEventListener('click',()=>{
+    sl.classList.remove('deny');void sl.offsetWidth;sl.classList.add('deny');
+    SND.deny();
+  });
+});
+
+/* ---------- poussière dorée flottante ---------- */
+(function(){
+  const cv=document.getElementById('dust'),ctx=cv.getContext('2d');
+  let W,H,parts=[];
+  function rs(){W=cv.width=innerWidth;H=cv.height=innerHeight}
+  rs();addEventListener('resize',rs);
+  const N=Math.min(70,Math.floor(innerWidth/22));
+  for(let i=0;i<N;i++)parts.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.6+.4,vx:(Math.random()-.5)*.18,vy:-(Math.random()*.22+.05),a:Math.random()*.5+.12,tw:Math.random()*6.28});
+  (function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(const p of parts){
+      p.x+=p.vx;p.y+=p.vy;p.tw+=.02;
+      if(p.y<-4){p.y=H+4;p.x=Math.random()*W}
+      if(p.x<-4)p.x=W+4;if(p.x>W+4)p.x=-4;
+      const tw=.55+Math.sin(p.tw)*.45;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,6.28);
+      ctx.fillStyle=`rgba(212,178,128,${(p.a*tw).toFixed(3)})`;ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  })();
+})();
+
+/* ---------- boutons magnétiques ---------- */
+document.querySelectorAll('.btn,.enter-btn,.form button,.cta-mini').forEach(el=>{
+  el.addEventListener('mousemove',e=>{
+    const r=el.getBoundingClientRect();
+    el.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.18}px,${(e.clientY-r.top-r.height/2)*.3}px)`;
+  });
+  el.addEventListener('mouseleave',()=>{el.style.transform='';el.style.transition='transform .5s cubic-bezier(.16,1,.3,1)';setTimeout(()=>el.style.transition='',500)});
+});
+
+/* ---------- titre d'onglet qui rappelle ---------- */
+let tIv=null;
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden){
+    let flip=false;
+    tIv=setInterval(()=>{document.title=flip?'✦ Reviens. L\'archive t\'attend.':'✦ 100 pièces. Pas une de plus.';flip=!flip},1800);
+  }else{clearInterval(tIv);document.title='Icon✦ — Drop 001'}
+});
+
+/* ---------- parallax logo hero (souris) ---------- */
+const heroLogo=document.querySelector('.hero .sig-inner img');
+addEventListener('mousemove',e=>{
+  if(!heroLogo||window.scrollY>innerHeight)return;
+  const dx=(e.clientX/innerWidth-.5),dy=(e.clientY/innerHeight-.5);
+  heroLogo.style.transform=`translate(${dx*18}px,${dy*12}px)`;
+});
+
+/* ---------- easter egg : 5 clics sur le logo nav ---------- */
+let eggClicks=0,eggTimer=null;
+document.querySelector('nav .mark').addEventListener('click',e=>{
+  e.preventDefault();
+  clearTimeout(eggTimer);eggTimer=setTimeout(()=>eggClicks=0,2500);
+  if(++eggClicks>=5){eggClicks=0;document.getElementById('egg').classList.add('on')}
+});
+document.getElementById('eggClose').addEventListener('click',()=>document.getElementById('egg').classList.remove('on'));
+
+/* ---------- burst d'étoiles or ---------- */
+function starBurst(x,y){
+  for(let i=0;i<14;i++){
+    const s=document.createElement('div');s.className='burst-star';
+    s.innerHTML='<svg viewBox="0 0 24 24"><path fill="#C19A6B" d="M12 0 L14.2 9.8 L24 12 L14.2 14.2 L12 24 L9.8 14.2 L0 12 L9.8 9.8 Z"/></svg>';
+    document.body.appendChild(s);
+    const ang=Math.random()*6.28,dist=60+Math.random()*140,dur=700+Math.random()*500;
+    s.style.left=x+'px';s.style.top=y+'px';
+    s.animate([
+      {transform:'translate(-50%,-50%) scale(1) rotate(0deg)',opacity:1},
+      {transform:`translate(${Math.cos(ang)*dist-7}px,${Math.sin(ang)*dist-7}px) scale(0) rotate(${Math.random()>.5?180:-180}deg)`,opacity:0}
+    ],{duration:dur,easing:'cubic-bezier(.16,1,.3,1)'});
+    setTimeout(()=>s.remove(),dur);
+  }
+}
+
+/* ---------- curseur étoile ---------- */
+const cDot=document.getElementById('cDot'),cStar=document.getElementById('cStar');
+let mx=0,my=0,sx=0,sy=0;
+addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cDot.style.left=mx+'px';cDot.style.top=my+'px'});
+(function follow(){sx+=(mx-sx)*.16;sy+=(my-sy)*.16;cStar.style.left=sx+'px';cStar.style.top=sy+'px';requestAnimationFrame(follow)})();
+document.querySelectorAll('a,button,input,.open-slot').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hovering'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hovering'));
+});
+
+/* ---------- indice quotidien (machine à écrire) ---------- */
+const INDICES=[
+  "le noir n'est pas une couleur. c'est une position.",
+  "100 pièces. zéro réédition. fais le calcul.",
+  "la signature est cousue là où personne ne regarde.",
+  "ceux qui savent, savent déjà. les autres liront ceci.",
+  "le drop tombera un jour où tu ne t'y attends pas.",
+  "présence > bruit. c'est tout le manifeste.",
+  "la pièce 002 existe déjà. elle attend.",
+];
+const dayIdx=Math.floor(Date.now()/864e5)%INDICES.length;
+const itxt=document.getElementById('indiceTxt');
+const msg="indice du jour — "+INDICES[dayIdx];
+let ic=0;
+new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){o.disconnect();
+  (function typeIt(){if(ic<=msg.length){itxt.textContent=msg.slice(0,ic++);setTimeout(typeIt,38)}})();
+}},{threshold:.4}).observe(itxt);
+
+/* ---------- countdown ---------- */
+const pad=n=>String(Math.max(0,n)).padStart(2,'0');
+function tick(){
+  const diff=DROP_DATE-new Date();
+  const d=Math.floor(diff/864e5),h=Math.floor(diff%864e5/36e5),m=Math.floor(diff%36e5/6e4),s=Math.floor(diff%6e4/1e3);
+  document.getElementById('cd-d').textContent=pad(d);
+  document.getElementById('cd-h').textContent=pad(h);
+  document.getElementById('cd-m').textContent=pad(m);
+  document.getElementById('cd-s').textContent=pad(s);
+}
+tick();setInterval(tick,1000);
+
+/* ---------- parallax hero ---------- */
+const heroImg=document.getElementById('heroImg');
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY;
+  if(y<window.innerHeight)heroImg.style.transform=`translateY(${y*0.35}px)`;
+},{passive:true});
+
+/* ---------- manifesto mot par mot ---------- */
+const manifestoText=`Ceux qui portent cette signature ne suivent pas. Ils imposent. Chaque pièce est signée comme une œuvre — parce que c'en est une. {{script}}`;
+const m=document.getElementById('manifesto');
+manifestoText.split(' ').forEach(w=>{
+  if(w==='{{script}}'){const s=document.createElement('span');s.className='script';s.textContent=' Presence over noise.';m.appendChild(s);return}
+  const s=document.createElement('span');s.className='dim';s.textContent=w+' ';m.appendChild(s);
+});
+const words=[...m.querySelectorAll('.dim')];
+window.addEventListener('scroll',()=>{
+  const r=m.getBoundingClientRect();
+  const p=Math.min(1,Math.max(0,(innerHeight*.82-r.top)/(r.height+innerHeight*.3)));
+  const lit=Math.floor(p*words.length*1.4);
+  words.forEach((w,i)=>w.classList.toggle('lit',i<lit));
+},{passive:true});
+
+/* ---------- reveals ---------- */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+document.querySelectorAll('.reveal,.product .visual,.hundred').forEach(el=>io.observe(el));
+
+/* ---------- sticky bar (apparaît après le hero, disparaît sur la waitlist) ---------- */
+const bar=document.getElementById('stickyBar');
+const wl=document.getElementById('waitlist');
+window.addEventListener('scroll',()=>{
+  const pastHero=window.scrollY>innerHeight*.9;
+  const wlR=wl.getBoundingClientRect();
+  const onWl=wlR.top<innerHeight&&wlR.bottom>0;
+  bar.classList.toggle('show',pastHero&&!onWl&&!localStorage.getItem('ia_joined'));
+},{passive:true});
+
+/* ---------- waitlist ---------- */
+const lc=document.getElementById('liveCount');
+let base=317+Math.floor((Date.now()-new Date('2026-06-11').getTime())/864e5)*7; // grossit un peu chaque jour
+lc.textContent=base;
+document.getElementById('waitlistForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const email=document.getElementById('emailInput').value.trim();
+  if(!email)return;
+  try{
+    const list=JSON.parse(localStorage.getItem('ia_waitlist')||'[]');
+    list.push({email,at:new Date().toISOString()});
+    localStorage.setItem('ia_waitlist',JSON.stringify(list));
+    localStorage.setItem('ia_joined','1');
+  }catch(_){}
+  lc.textContent=++base;
+  const fr=document.getElementById('formWrap').getBoundingClientRect();
+  starBurst(fr.left+fr.width/2,fr.top+fr.height/2);
+  SND.success();
+  document.getElementById('formWrap').classList.add('ok');
+  bar.classList.remove('show');
+});
+</script>
+</body>
+</html>
