@@ -628,26 +628,31 @@ const SND={ctx:null,on:false,
     const dly=ctx.createDelay();dly.delayTime.value=.75;const fb=ctx.createGain();fb.gain.value=.55;
     dly.connect(fb).connect(dly);const wet=ctx.createGain();wet.gain.value=.3;
     master.connect(dly);dly.connect(wet).connect(ctx.destination);
-    // filtre doux + respiration ultra lente
-    const flt=ctx.createBiquadFilter();flt.type='lowpass';flt.frequency.value=420;flt.Q.value=1;flt.connect(master);
-    const lfo=ctx.createOscillator();lfo.frequency.value=.024;const lg=ctx.createGain();lg.gain.value=180;
+    // filtre ouvert et aérien + respiration ultra lente
+    const flt=ctx.createBiquadFilter();flt.type='lowpass';flt.frequency.value=900;flt.Q.value=.7;flt.connect(master);
+    const lfo=ctx.createOscillator();lfo.frequency.value=.022;const lg=ctx.createGain();lg.gain.value=320;
     lfo.connect(lg).connect(flt.frequency);lfo.start();
-    // sub drone profond (E1) — fondation douce
-    const sub=ctx.createOscillator();sub.type='sine';sub.frequency.value=41.2;
-    const subg=ctx.createGain();subg.gain.value=.26;sub.connect(subg).connect(master);sub.start();
-    // pad doux et chaud : fondamentale + quinte + octave, sinusoïdes, légèrement désaccordées
-    const pad=[82.4,82.4*1.003,123.5,164.8].map(f=>{const o=ctx.createOscillator();o.type='sine';o.frequency.value=f;const g=ctx.createGain();g.gain.value=.10;o.connect(g).connect(flt);o.start();return o});
-    // scintillements d'étoiles : notes hautes feutrées (E/B/F# aigus), attaque douce, longues, espacées
-    const stars=[659.3,987.8,1318.5,740,1108.7];
+    // basse minimale (juste un soupçon de chaleur, E2 très discret)
+    const sub=ctx.createOscillator();sub.type='sine';sub.frequency.value=82.4;
+    const subg=ctx.createGain();subg.gain.value=.06;sub.connect(subg).connect(master);sub.start();
+    // pad aura : registre médium-aigu chaud (E3/B3/E4), sinusoïdes douces désaccordées qui planent
+    const pad=[164.8,164.8*1.003,246.9,329.6].map(f=>{const o=ctx.createOscillator();o.type='sine';o.frequency.value=f;const g=ctx.createGain();g.gain.value=.07;o.connect(g).connect(flt);o.start();return o});
+    // halo aérien très haut (glow) qui ondule lentement
+    const halo=ctx.createOscillator();halo.type='sine';halo.frequency.value=493.9;
+    const halog=ctx.createGain();halog.gain.value=.0;halo.connect(halog).connect(wet);halo.start();
+    const hlfo=ctx.createOscillator();hlfo.frequency.value=.05;const hlg=ctx.createGain();hlg.gain.value=.022;
+    hlfo.connect(hlg).connect(halog.gain);hlfo.start();
+    // scintillements d'étoiles : notes hautes feutrées, attaque douce, longues, fréquentes
+    const stars=[659.3,987.8,1318.5,740,1108.7,1567.9];
     const twinkle=()=>{
       const t=ctx.currentTime,o=ctx.createOscillator(),g=ctx.createGain();
       o.type='sine';o.frequency.value=stars[Math.floor(Math.random()*stars.length)];
-      g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.03,t+.6);g.gain.exponentialRampToValueAtTime(.0006,t+4.5);
-      o.connect(g).connect(wet);o.connect(g).connect(master);o.start(t);o.stop(t+5);
+      g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.035,t+.7);g.gain.exponentialRampToValueAtTime(.0006,t+5);
+      o.connect(g).connect(wet);o.connect(g).connect(master);o.start(t);o.stop(t+5.5);
     };
-    const star=setInterval(()=>{if(Math.random()<.7)twinkle()},4200);
-    setTimeout(twinkle,2000);
-    this.amb={master,nodes:[lfo,sub,...pad],beat:star};
+    const star=setInterval(()=>{if(Math.random()<.8)twinkle()},3200);
+    setTimeout(twinkle,1500);setTimeout(twinkle,3000);
+    this.amb={master,nodes:[lfo,sub,...pad,halo,hlfo],beat:star};
   },
   stopAmbient(){
     if(!this.amb)return;const a=this.amb,t=this.ctx.currentTime;
