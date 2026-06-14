@@ -600,7 +600,7 @@ document.getElementById('enterBtn').addEventListener('click',()=>{
 
 /* ---------- moteur son (WebAudio, zéro fichier) ---------- */
 const SND={ctx:null,on:false,
-  init(){if(!this.ctx)this.ctx=new (window.AudioContext||window.webkitAudioContext)()},
+  init(){if(!this.ctx)this.ctx=new (window.AudioContext||window.webkitAudioContext)();if(this.ctx.state==='suspended')this.ctx.resume();return this.ctx},
   tone(f,dur,type='sine',vol=.08,delay=0){
     if(!this.on||!this.ctx)return;
     const t=this.ctx.currentTime+delay,o=this.ctx.createOscillator(),g=this.ctx.createGain();
