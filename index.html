@@ -354,6 +354,10 @@ footer .row a:hover{color:var(--or)}
 .reveal{opacity:0;transform:translateY(50px);transition:opacity 1.2s var(--ease),transform 1.2s var(--ease)}
 .reveal.in{opacity:1;transform:translateY(0)}
 
+/* ---------- titres mot par mot ---------- */
+.sw{display:inline-block;opacity:0;transform:translateY(.55em);transition:opacity .7s var(--ease),transform .8s var(--ease)}
+.split-in .sw{opacity:1;transform:none}
+
 @media(max-width:860px){
   .product{grid-template-columns:1fr;gap:7vh}
   nav .right .hide-m{display:none}
@@ -840,6 +844,53 @@ window.addEventListener('scroll',()=>{
 /* ---------- reveals ---------- */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
 document.querySelectorAll('.reveal,.product .visual,.hundred').forEach(el=>io.observe(el));
+
+/* ---------- titres cinématiques mot par mot ---------- */
+(function(){
+  const targets=[document.querySelector('.product .info h2'),document.querySelector('.vault .head h4'),document.querySelector('.waitlist h3')].filter(Boolean);
+  let gi=0;
+  targets.forEach(h=>{
+    h.classList.remove('reveal');
+    const frag=document.createDocumentFragment();
+    [...h.childNodes].forEach(node=>{
+      if(node.nodeType===3){ // texte → mots
+        node.textContent.split(/(\s+)/).forEach(tok=>{
+          if(/^\s+$/.test(tok)){frag.appendChild(document.createTextNode(tok));return}
+          if(!tok)return;
+          const s=document.createElement('span');s.className='sw';s.textContent=tok;s.style.transitionDelay=(gi++*0.05)+'s';frag.appendChild(s);
+        });
+      }else if(node.tagName==='BR'){frag.appendChild(node.cloneNode());}
+      else{ // span (.script) → un bloc
+        const s=document.createElement('span');s.className='sw';s.style.transitionDelay=(gi++*0.05)+'s';s.appendChild(node.cloneNode(true));frag.appendChild(s);
+      }
+    });
+    h.innerHTML='';h.appendChild(frag);
+  });
+  const so=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('split-in');so.unobserve(e.target)}}),{threshold:.3});
+  targets.forEach(h=>so.observe(h));
+})();
+
+/* ---------- smooth scroll (inertie, desktop uniquement) ---------- */
+(function(){
+  const fine=matchMedia('(pointer:fine)').matches && !matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if(!fine)return;
+  let target=window.scrollY||0,current=target,active=false;
+  const maxY=()=>document.documentElement.scrollHeight-innerHeight;
+  addEventListener('wheel',e=>{
+    if(e.ctrlKey)return; // laisse le zoom
+    e.preventDefault();
+    target=Math.max(0,Math.min(target+e.deltaY,maxY()));
+    active=true;
+  },{passive:false});
+  (function raf(){
+    if(active){
+      current+=(target-current)*0.09;
+      if(Math.abs(target-current)<0.4){current=target;active=false;}
+      window.scrollTo(0,current);
+    }else{target=current=window.scrollY;}
+    requestAnimationFrame(raf);
+  })();
+})();
 
 /* ---------- sticky bar (apparaît après le hero, disparaît sur la waitlist) ---------- */
 const bar=document.getElementById('stickyBar');
