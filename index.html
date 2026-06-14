@@ -590,6 +590,7 @@ const DROP_DATE = new Date('2026-09-01T19:00:00+02:00');
 })();
 document.getElementById('enterBtn').addEventListener('click',()=>{
   SND.init();SND.on=true;sndBtn.classList.add('on');SND.gate();
+  setTimeout(()=>SND.startAmbient(),900);
   const g=document.getElementById('gate');
   g.classList.add('open');
   document.getElementById('hero').classList.add('in');
@@ -611,12 +612,54 @@ const SND={ctx:null,on:false,
   click(){this.tone(880,.09,'triangle',.05);this.tone(1760,.05,'sine',.02,.02)},
   gate(){this.tone(55,1.4,'sine',.16);this.tone(110,1.1,'sine',.07,.05);this.tone(220,.5,'triangle',.03,.1)},
   deny(){this.tone(180,.13,'square',.04);this.tone(140,.16,'square',.04,.09)},
-  success(){[523,659,784,1047].forEach((f,i)=>this.tone(f,.4,'sine',.06,i*.09))}
+  success(){[523,659,784,1047].forEach((f,i)=>this.tone(f,.4,'sine',.06,i*.09))},
+  // ---- nappe ambient sombre (esdekid-style), générative ----
+  amb:null,
+  startAmbient(){
+    if(!this.ctx||this.amb)return;
+    const ctx=this.ctx,now=ctx.currentTime;
+    const master=ctx.createGain();master.gain.setValueAtTime(0,now);master.gain.linearRampToValueAtTime(.5,now+4);
+    // reverb-like via feedback delay
+    const dly=ctx.createDelay();dly.delayTime.value=.42;const fb=ctx.createGain();fb.gain.value=.38;
+    dly.connect(fb).connect(dly);
+    const wet=ctx.createGain();wet.gain.value=.3;
+    master.connect(ctx.destination);master.connect(dly);dly.connect(wet).connect(ctx.destination);
+    // filtre global + LFO lent (respiration)
+    const flt=ctx.createBiquadFilter();flt.type='lowpass';flt.frequency.value=520;flt.Q.value=4;flt.connect(master);
+    const lfo=ctx.createOscillator();lfo.frequency.value=.05;const lg=ctx.createGain();lg.gain.value=260;
+    lfo.connect(lg).connect(flt.frequency);lfo.start();
+    // sub drone continu
+    const sub=ctx.createOscillator();sub.type='sine';sub.frequency.value=55;const subg=ctx.createGain();subg.gain.value=.18;
+    sub.connect(subg).connect(master);sub.start();
+    // 3 voix pad (sawtooth doux)
+    const voices=[0,1,2].map(()=>{const o=ctx.createOscillator();o.type='sawtooth';const g=ctx.createGain();g.gain.value=.14;o.connect(g).connect(flt);o.start();return{o,g}});
+    // progression mineure lente (Am - F - C - G), voicing grave
+    const chords=[[110,130.8,164.8],[87.3,110,130.8],[130.8,164.8,196],[98,123.5,146.8]];
+    let ci=0;
+    const setChord=()=>{
+      const c=chords[ci%chords.length];const t=ctx.currentTime;
+      voices.forEach((v,i)=>{v.o.frequency.setTargetAtTime(c[i]*(1+(i-1)*.004),t,2.5)});
+      sub.frequency.setTargetAtTime(c[0]/2,t,3);
+      ci++;
+    };
+    setChord();
+    const prog=setInterval(setChord,11000);
+    // shimmer aléatoire discret
+    const shim=setInterval(()=>{if(Math.random()<.5)this.tone([1318,1568,1760,2093][Math.floor(Math.random()*4)],3.5,'sine',.012,0)},9000);
+    this.amb={master,nodes:[lfo,sub,...voices.map(v=>v.o)],prog,shim};
+  },
+  stopAmbient(){
+    if(!this.amb)return;const a=this.amb,t=this.ctx.currentTime;
+    a.master.gain.cancelScheduledValues(t);a.master.gain.setTargetAtTime(0,t,.6);
+    clearInterval(a.prog);clearInterval(a.shim);
+    setTimeout(()=>{a.nodes.forEach(n=>{try{n.stop()}catch(e){}})},1500);
+    this.amb=null;
+  }
 };
 const sndBtn=document.getElementById('sndBtn');
 sndBtn.addEventListener('click',()=>{
   SND.init();SND.on=!SND.on;sndBtn.classList.toggle('on',SND.on);
-  if(SND.on)SND.click();
+  if(SND.on){SND.click();SND.startAmbient()}else{SND.stopAmbient()}
 });
 document.querySelectorAll('a,button,.open-slot').forEach(el=>{
   el.addEventListener('mouseenter',()=>SND.hover());
