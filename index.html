@@ -617,10 +617,26 @@ const SND={ctx:null,on:false,
   gate(){this.tone(55,1.4,'sine',.16);this.tone(110,1.1,'sine',.07,.05);this.tone(220,.5,'triangle',.03,.1)},
   deny(){this.tone(180,.13,'square',.04);this.tone(140,.16,'square',.04,.09)},
   success(){[523,659,784,1047].forEach((f,i)=>this.tone(f,.4,'sine',.06,i*.09))},
-  // ---- nappe ambient sombre (esdekid-style), générative ----
+  // ---- musique de fond : vrai fichier si présent, sinon nappe synthé ----
   amb:null,
   startAmbient(){
     if(!this.ctx||this.amb)return;
+    this.amb={pending:true};
+    // si une vraie track existe (assets/track.mp3), on la joue en priorité
+    fetch('assets/track.mp3',{method:'HEAD'}).then(r=>{
+      if(r.ok){this.amb=null;this._startTrack()}else{this.amb=null;this._startSynth()}
+    }).catch(()=>{this.amb=null;this._startSynth()});
+  },
+  _startTrack(){
+    if(this.amb)return;
+    let bgm=document.getElementById('bgm');
+    if(!bgm){bgm=document.createElement('audio');bgm.id='bgm';bgm.src='assets/track.mp3';bgm.loop=true;document.body.appendChild(bgm)}
+    bgm.volume=0;bgm.play().catch(()=>{});
+    let v=0;const fade=setInterval(()=>{v=Math.min(.55,v+.02);bgm.volume=v;if(v>=.55)clearInterval(fade)},120);
+    this.amb={track:bgm,fade};
+  },
+  _startSynth(){
+    if(this.amb)return;
     const ctx=this.ctx,now=ctx.currentTime;
     const master=ctx.createGain();master.gain.setValueAtTime(0,now);master.gain.linearRampToValueAtTime(.5,now+7);
     master.connect(ctx.destination);
@@ -655,7 +671,14 @@ const SND={ctx:null,on:false,
     this.amb={master,nodes:[lfo,sub,...pad,halo,hlfo],beat:star};
   },
   stopAmbient(){
-    if(!this.amb)return;const a=this.amb,t=this.ctx.currentTime;
+    if(!this.amb)return;const a=this.amb;
+    if(a.pending){this.amb=null;return}
+    if(a.track){ // vraie track : fondu de sortie
+      clearInterval(a.fade);
+      let v=a.track.volume;const out=setInterval(()=>{v=Math.max(0,v-.04);a.track.volume=v;if(v<=0){clearInterval(out);a.track.pause()}},60);
+      this.amb=null;return;
+    }
+    const t=this.ctx.currentTime;
     a.master.gain.cancelScheduledValues(t);a.master.gain.setTargetAtTime(0,t,.6);
     clearInterval(a.beat);
     setTimeout(()=>{a.nodes.forEach(n=>{try{n.stop()}catch(e){}})},1500);
