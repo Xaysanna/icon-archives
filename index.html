@@ -582,6 +582,12 @@ footer .row a:hover{color:var(--or)}
 // Date cible du drop (modifiable). Les visiteurs voient le countdown mais la "vraie" date n'est envoyée qu'aux inscrits.
 const DROP_DATE = new Date('2026-09-01T19:00:00+02:00');
 
+// ====== CONFIG WAITLIST ======
+// Colle ici l'URL d'action de ton formulaire Brevo (commence par https://...sibforms.com/serve/...).
+// Tant que c'est vide, les emails sont juste stockés dans le navigateur (rien envoyé).
+const WAITLIST_ENDPOINT = '';
+const WAITLIST_EMAIL_FIELD = 'EMAIL'; // nom du champ email côté Brevo (par défaut "EMAIL")
+
 /* ---------- preloader → porte (avec compteur %) ---------- */
 (function(){
   const pctEl=document.getElementById('loadPct'),barEl=document.getElementById('loadBar');
@@ -941,6 +947,11 @@ document.getElementById('waitlistForm').addEventListener('submit',e=>{
     localStorage.setItem('ia_waitlist',JSON.stringify(list));
     localStorage.setItem('ia_joined','1');
   }catch(_){}
+  // envoi vers l'endpoint réel (Brevo) si configuré
+  if(WAITLIST_ENDPOINT){
+    const fd=new FormData();fd.append(WAITLIST_EMAIL_FIELD,email);
+    fetch(WAITLIST_ENDPOINT,{method:'POST',body:fd,mode:'no-cors'}).catch(()=>{});
+  }
   lc.textContent=++base;
   const fr=document.getElementById('formWrap').getBoundingClientRect();
   starBurst(fr.left+fr.width/2,fr.top+fr.height/2);
